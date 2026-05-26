@@ -6,11 +6,17 @@ from .params import Side
 class Vehicle:
     name: str
     cost: int = 100
+    
+    def to_attribute(self) -> str:
+        return f'["{self.name}", ["rebCost", {self.cost}]]'
 
 @dataclass
 class Breacher:
     name: str
     amount: int = 1
+    
+    def to_pair(self) -> str:
+        return f'"{self.name}", {self.amount}'
 
 @dataclass
 class Rebel:
