@@ -1,16 +1,18 @@
+from pathlib import Path
 from dataclasses import dataclass
 
 @dataclass
-class SideParams:
-    side: str
+class Author:
     name: str
-    description: str
-    flag_texture: str
-    base_path: str
-    file_no_ext: str
+    url: str
 
 @dataclass
-class Params:
-    mod_name: str
-    author_name: str
-    author_url: str = None
+class Mod:
+    name: str
+
+@dataclass
+class Side:
+    name: str
+    type: str
+    description: str
+    flag_file: Path
