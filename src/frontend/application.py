@@ -7,8 +7,8 @@ from .main_window import MainWindow
 class Application(QApplication):
     def __init__(self):
         super().__init__()
-        self.main = MainWindow()
+        self.main_window = MainWindow()
+        self.main_window.show()
         
-        self.main.setGeometry(self.screens()[1].availableGeometry())
-        
-        self.main.showMaximized()
+    def launch(self):
+        sys.exit(self.exec())
