@@ -230,8 +230,7 @@ def generate_rebel_template(
             "};\n"
             "\n"
         )
-    
-    
+
     def build_unit():
         mapping = {
             "_squadLeader": ["Petros", "SquadLeader"],
