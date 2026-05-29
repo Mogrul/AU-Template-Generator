@@ -12,6 +12,7 @@
         "primary": "#bfbfb0",
         "pressed": "#252627",
         "checked": "#092735",
+        "highlight": "#252627",
         
         "spacing": {
             "small": 2,

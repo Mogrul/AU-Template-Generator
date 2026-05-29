@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 
 from .collapsible import Collapsible
+from .multi_item_text_edit import MultiItemTextEdit
 
 class FactionSection(Collapsible):
     def __init__(self, parent: QWidget):
@@ -19,6 +20,16 @@ class FactionSection(Collapsible):
         self.voices = QLineEdit()
         self.get_file_selection()
         
+        self.vehicles_basic = MultiItemTextEdit(parent)
+        self.vehicles_unarmed = MultiItemTextEdit(parent)
+        self.vehicles_armed = MultiItemTextEdit(parent)
+        self.vehicles_truck = MultiItemTextEdit(parent)
+        self.vehicles_aa = MultiItemTextEdit(parent)
+        self.vehicles_at = MultiItemTextEdit(parent)
+        self.vehicles_boat = MultiItemTextEdit(parent)
+        self.vehicles_planes = MultiItemTextEdit(parent)
+        self.vehicles_medical = MultiItemTextEdit(parent)
+        
         self.add_widgets([
             QLabel(self.tr("Name")), self.name,
             QLabel(self.tr("Description")), self.description,
@@ -26,7 +37,17 @@ class FactionSection(Collapsible):
             QLabel(self.tr("Flag")), self.file_row,
             QLabel(self.tr("Identity"), alignment = Qt.AlignmentFlag.AlignCenter, font = parent.fonts.bold),
             QLabel(self.tr("Faces")), self.faces,
-            QLabel(self.tr("Voices")), self.voices
+            QLabel(self.tr("Voices")), self.voices,
+            QLabel(self.tr("Military Vehicles"), alignment = Qt.AlignmentFlag.AlignCenter, font = parent.fonts.bold),
+            QLabel(self.tr("Basic")), self.vehicles_basic,
+            QLabel(self.tr("Unarmed")), self.vehicles_unarmed,
+            QLabel(self.tr("Armed")), self.vehicles_armed,
+            QLabel(self.tr("Trucks")), self.vehicles_truck,
+            QLabel(self.tr("Anti Aire")), self.vehicles_aa,
+            QLabel(self.tr("Anti Tank")), self.vehicles_at,
+            QLabel(self.tr("Boats")), self.vehicles_boat,
+            QLabel(self.tr("Planes")), self.vehicles_planes,
+            QLabel(self.tr("Medical")), self.vehicles_medical
         ])
     
     def get_file_selection(self):

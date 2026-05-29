@@ -13,7 +13,7 @@ from .widgets.section_faction import FactionSection
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("AU Template Generator")
+        self.setWindowTitle(self.tr("AU Template Generator"))
         self.fonts = get_fonts()
         self.theme = get_theme()
         

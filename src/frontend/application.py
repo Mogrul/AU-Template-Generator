@@ -61,14 +61,15 @@ class Application(QApplication):
         return Fonts(regular, bold, light)
 
     def setup_locale(self) -> None:
-        translator = QTranslator()
-        lang_code = QLocale.system().name().split("_")[0]
+        self.translator = QTranslator()
+        self.lang_code = QLocale.system().name().split("_")[0]
         fallback = Path("static/locale/en.qm")
-        lang = Path(f"static/locale/{lang_code}.qm")
+        lang = Path(f"static/locale/{self.lang_code}.qm")
+        
         
         if lang.exists():
-            translator.load(str(lang))
+            self.translator.load(str(lang))
         else:
-            translator.load(str(fallback))
+            self.translator.load(str(fallback))
         
-        self.installTranslator(translator)
+        self.installTranslator(self.translator)

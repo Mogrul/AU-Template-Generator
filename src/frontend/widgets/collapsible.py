@@ -109,4 +109,8 @@ class Collapsible(QWidget):
             QLineEdit {{
                 background-color: {theme.background.primary};
             }}
+            
+            QTextEdit {{
+                background-color: {theme.background.primary};
+            }}
         """)

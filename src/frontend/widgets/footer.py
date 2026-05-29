@@ -25,7 +25,7 @@ class Footer(QWidget):
         self.main_layout = QHBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         
-        self.title = QLabel("AU Template Generator", alignment = Qt.AlignmentFlag.AlignCenter)
+        self.title = QLabel(self.tr("AU Template Generator"), alignment = Qt.AlignmentFlag.AlignCenter)
         
         self.main_layout.addWidget(self.title)
         
