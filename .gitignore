@@ -221,6 +221,7 @@ __marimo__/
 
 .*
 !.gitignore
+!.github
 out
 dev
 output

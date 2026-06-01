@@ -5,6 +5,7 @@ import logging
 
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFontDatabase, QFont
+from PySide6.QtCore import QTranslator, QLocale
 
 from .shared.helpers import getTheme, getFonts
 from .gui.main_window import MainWindow
@@ -23,6 +24,7 @@ class Application(QApplication):
     def __init__(self):
         super().__init__()
         self.logger = logging.getLogger(__name__)
+        self._loadLocale()
         
         self.theme = self._loadTheme()
         self.fonts = self._loadFonts()
@@ -72,3 +74,16 @@ class Application(QApplication):
             f.setStyleStrategy(QFont.StyleStrategy.PreferAntialias)
         
         return Fonts(regular, bold, light)
+
+    def _loadLocale(self) -> None:
+        self.translator = QTranslator()
+        self.lang_code = QLocale.system().name().split("_")[0]
+        fallback = Path("static/locale/en.qm")
+        lang = Path(f"static/locale/{self.lang_code}.qm")
+        
+        if lang.exists():
+            self.translator.load(str(lang))
+        else:
+            self.translator.load(str(fallback))
+        
+        self.installTranslator(self.translator)
