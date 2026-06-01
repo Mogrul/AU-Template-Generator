@@ -1,32 +1,45 @@
-import sys
+from typing import Any
 from pathlib import Path
+import json
+import logging
 
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFontDatabase, QFont
-from PySide6.QtCore import Qt, QTranslator, QLocale
 
-from .main_window import MainWindow
-from .models import Fonts
-from .helpers import load_theme
+from .shared.helpers import getTheme, getFonts
+from .gui.main_window import MainWindow
+from .shared.models import Fonts
+
+class ThemeDict(dict):
+    def __getattr__(self, key: str) -> Any:
+        value = self[key]
+        
+        if isinstance(value, dict):
+            return ThemeDict(value)
+
+        return value
 
 class Application(QApplication):
     def __init__(self):
-        super().__init__(sys.argv)
-        self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
-        self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
-        self.setup_locale()
+        super().__init__()
+        self.logger = logging.getLogger(__name__)
         
-        self.theme = load_theme()
-        self.fonts = self.load_fonts()
+        self.theme = self._loadTheme()
+        self.fonts = self._loadFonts()
         self.setFont(self.fonts.regular)
         
         self.main_window = MainWindow()
+        self.logger.info("Launching main window...")
         self.main_window.show()
-        
-    def launch(self):
-        sys.exit(self.exec())
     
-    def load_fonts(self) -> Fonts:
+    def _loadTheme(self, path: str = None) -> ThemeDict:
+        if not path:
+            path = Path("static/theme.json")
+    
+        with open(path, "r") as f:
+            return ThemeDict(json.load(f))
+    
+    def _loadFonts(self) -> Fonts:
         font_id = None
         base_dir = "static/font/"
         fonts = [
@@ -59,17 +72,3 @@ class Application(QApplication):
             f.setStyleStrategy(QFont.StyleStrategy.PreferAntialias)
         
         return Fonts(regular, bold, light)
-
-    def setup_locale(self) -> None:
-        self.translator = QTranslator()
-        self.lang_code = QLocale.system().name().split("_")[0]
-        fallback = Path("static/locale/en.qm")
-        lang = Path(f"static/locale/{self.lang_code}.qm")
-        
-        
-        if lang.exists():
-            self.translator.load(str(lang))
-        else:
-            self.translator.load(str(fallback))
-        
-        self.installTranslator(self.translator)
